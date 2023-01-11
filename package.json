@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.1.3",
+    "@codemirror/lang-markdown": "^6.0.5",
+    "@codemirror/state": "^6.2.0",
+    "@codemirror/view": "^6.7.2",
     "@next/font": "13.1.1",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
@@ -18,7 +22,11 @@
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.4"
+    "rehype-react": "^7.1.1",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "typescript": "4.9.4",
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "prettier": "^2.8.2"
