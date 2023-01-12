@@ -3,6 +3,34 @@ import { EditorState } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { defaultKeymap } from '@codemirror/commands'
+import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
+import { tags } from '@lezer/highlight'
+
+const languageHighlight = HighlightStyle.define([
+  {
+    tag: tags.heading1,
+    fontSize: '1.6em',
+    fontWeight: 'bold'
+  },
+  {
+    tag: tags.heading2,
+    fontSize: '1.4em',
+    fontWeight: 'bold'
+  },
+  {
+    tag: tags.heading3,
+    fontSize: '1.2em',
+    fontWeight: 'bold'
+  },
+  {
+    tag: tags.emphasis,
+    fontStyle: 'italic'
+  },
+  {
+    tag: tags.strong,
+    fontWeight: 'bold'
+  }
+])
 
 const editorTheme = EditorView.theme({
   '&.cm-editor': {
@@ -42,6 +70,7 @@ const useCodeMirror = <T extends Element>(
           addKeymap: true
         }),
         editorTheme,
+        syntaxHighlighting(languageHighlight),
         EditorView.updateListener.of(update => {
           if (update.changes) {
             onChange && onChange(update.state)
