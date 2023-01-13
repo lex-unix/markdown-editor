@@ -74,13 +74,8 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
     return () => document.removeEventListener('keydown', onKey)
   })
 
-  useEffect(() => {
-    if (editorView) {
-    }
-  }, [editorView])
-
   return (
-    <div className="editor max-w-md break-words">
+    <div className="editor">
       <div ref={refContainer}></div>
       <EditorPanel
         onBoldClick={handleBoldClick}

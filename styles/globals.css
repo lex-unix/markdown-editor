@@ -18,7 +18,11 @@ main {
 }
 
 .preview h1 {
-  @apply text-3xl font-bold my-4;
+  @apply text-3xl font-bold mb-4;
+}
+
+.preview p {
+  @apply my-4;
 }
 
 .preview ul {
