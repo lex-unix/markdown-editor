@@ -24,7 +24,7 @@ export const insertAround = (
       output = text + end
       head = range.to + end.length
     } else if (!startsWith && endsWith) {
-      output = text + end
+      output = start + text
       head = range.to + end.length
     } else {
       output = start + text + end
