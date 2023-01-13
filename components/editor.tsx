@@ -20,9 +20,13 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
     onChange: handleChange
   })
 
+  let isSeletion: boolean
+  if (editorView && selection) {
+    isSeletion = selection.ranges[0].from !== selection.ranges[0].to
+  }
+
   const handleBoldClick = () => {
     if (!editorView || !selection) return
-    const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
     isSeletion
       ? insertAround('**', '**', editorView, selection)
       : insertBefore('****', editorView)
@@ -30,7 +34,6 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
 
   const handleItalicClick = () => {
     if (!editorView || !selection) return
-    const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
     isSeletion
       ? insertAround('*', '*', editorView, selection)
       : insertBefore('**', editorView)
@@ -38,18 +41,23 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
 
   const handleStrikeClick = () => {
     if (!editorView || !selection) return
-    const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
     isSeletion
       ? insertAround('~~', '~~', editorView, selection)
       : insertBefore('~~~~', editorView)
+  }
+
+  const handleHeadingClick = () => {
+    if (editorView && selection) {
+      isSeletion
+        ? insertAround('# ', '', editorView, selection)
+        : insertBefore('# ', editorView)
+    }
   }
 
   useEffect(() => {
     if (!editorView || !selection) return
 
     const onKey = (e: KeyboardEvent) => {
-      const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
-
       if (e.key === 'b' && e.metaKey) {
         isSeletion
           ? insertAround('**', '**', editorView, selection)
@@ -67,6 +75,12 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
           ? insertAround('~~', '~~', editorView, selection)
           : insertBefore('~~~~', editorView)
       }
+
+      if (e.key === 'h' && e.metaKey && e.shiftKey) {
+        isSeletion
+          ? insertAround('# ', '', editorView, selection)
+          : insertBefore('# ', editorView)
+      }
     }
 
     document.addEventListener('keydown', onKey)
@@ -81,6 +95,7 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
         onBoldClick={handleBoldClick}
         onItalicClick={handleItalicClick}
         onStrikeClick={handleStrikeClick}
+        onHeadingClick={handleHeadingClick}
       />
     </div>
   )
