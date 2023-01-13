@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { EditorState } from '@codemirror/state'
+import { EditorSelection, EditorState } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { defaultKeymap } from '@codemirror/commands'
@@ -29,6 +29,10 @@ const languageHighlight = HighlightStyle.define([
   {
     tag: tags.strong,
     fontWeight: 'bold'
+  },
+  {
+    tag: tags.strikethrough,
+    textDecoration: 'line-through'
   }
 ])
 
@@ -53,16 +57,17 @@ interface Props {
 
 const useCodeMirror = <T extends Element>(
   props: Props
-): [React.MutableRefObject<T | null>, EditorView?] => {
+): [React.MutableRefObject<T | null>, EditorView?, EditorSelection?] => {
   const refContainer = useRef<T>(null)
   const [editorView, setEditorView] = useState<EditorView>()
-  const { onChange } = props
+  const [selection, setSelection] = useState<EditorSelection>()
+  const { initialDoc, onChange } = props
 
   useEffect(() => {
     if (!refContainer.current) return
 
     const startState = EditorState.create({
-      doc: props.initialDoc,
+      doc: initialDoc,
       extensions: [
         keymap.of([...defaultKeymap]),
         markdown({
@@ -72,6 +77,9 @@ const useCodeMirror = <T extends Element>(
         editorTheme,
         syntaxHighlighting(languageHighlight),
         EditorView.updateListener.of(update => {
+          if (update.selectionSet) {
+            setSelection(update.state.selection)
+          }
           if (update.changes) {
             onChange && onChange(update.state)
           }
@@ -89,7 +97,7 @@ const useCodeMirror = <T extends Element>(
     // eslint-disable-next-line
   }, [refContainer])
 
-  return [refContainer, editorView]
+  return [refContainer, editorView, selection]
 }
 
 export default useCodeMirror

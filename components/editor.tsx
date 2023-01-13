@@ -1,6 +1,7 @@
 import { EditorState } from '@codemirror/state'
 import { useCallback, useEffect } from 'react'
 import useCodeMirror from '../hooks/use-codemirror'
+import { insertBefore, insertAround } from '../lib/codemirror'
 
 interface Props {
   initialDoc: string
@@ -13,9 +14,39 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
     [onChange]
   )
 
-  const [refContainer, editorView] = useCodeMirror<HTMLDivElement>({
+  const [refContainer, editorView, selection] = useCodeMirror<HTMLDivElement>({
     initialDoc,
     onChange: handleChange
+  })
+
+  useEffect(() => {
+    if (!editorView || !selection) return
+
+    const onKey = (e: KeyboardEvent) => {
+      const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
+
+      if (e.key === 'b' && e.metaKey) {
+        isSeletion
+          ? insertAround('**', '**', editorView, selection)
+          : insertBefore('****', editorView)
+      }
+
+      if (e.key === 'i' && e.metaKey && e.shiftKey) {
+        isSeletion
+          ? insertAround('*', '*', editorView, selection)
+          : insertBefore('**', editorView)
+      }
+
+      if (e.key === 'u' && e.metaKey) {
+        isSeletion
+          ? insertAround('~~', '~~', editorView, selection)
+          : insertBefore('~~~~', editorView)
+      }
+    }
+
+    document.addEventListener('keydown', onKey)
+
+    return () => document.removeEventListener('keydown', onKey)
   })
 
   useEffect(() => {

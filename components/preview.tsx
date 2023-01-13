@@ -3,6 +3,7 @@ import { unified } from 'unified'
 import rehypeReact from 'rehype-react'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
+import remarkGfm from 'remark-gfm'
 
 interface Props {
   doc: string
@@ -15,6 +16,7 @@ const Preview: React.FC<Props> = ({ doc }) => {
     unified()
       .use(remarkParse)
       .use(remarkRehype)
+      .use(remarkGfm)
       .use(rehypeReact, { createElement, Fragment })
       .process(doc)
       .then(file => {
