@@ -2,6 +2,7 @@ import { EditorState } from '@codemirror/state'
 import { useCallback, useEffect } from 'react'
 import useCodeMirror from '../hooks/use-codemirror'
 import { insertBefore, insertAround } from '../lib/codemirror'
+import EditorPanel from './editor-panel'
 
 interface Props {
   initialDoc: string
@@ -18,6 +19,30 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
     initialDoc,
     onChange: handleChange
   })
+
+  const handleBoldClick = () => {
+    if (!editorView || !selection) return
+    const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
+    isSeletion
+      ? insertAround('**', '**', editorView, selection)
+      : insertBefore('****', editorView)
+  }
+
+  const handleItalicClick = () => {
+    if (!editorView || !selection) return
+    const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
+    isSeletion
+      ? insertAround('*', '*', editorView, selection)
+      : insertBefore('**', editorView)
+  }
+
+  const handleStrikeClick = () => {
+    if (!editorView || !selection) return
+    const isSeletion = selection.ranges[0].from !== selection.ranges[0].to
+    isSeletion
+      ? insertAround('~~', '~~', editorView, selection)
+      : insertBefore('~~~~', editorView)
+  }
 
   useEffect(() => {
     if (!editorView || !selection) return
@@ -54,7 +79,16 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
     }
   }, [editorView])
 
-  return <div ref={refContainer} className="editor"></div>
+  return (
+    <div className="editor max-w-md break-words">
+      <div ref={refContainer}></div>
+      <EditorPanel
+        onBoldClick={handleBoldClick}
+        onItalicClick={handleItalicClick}
+        onStrikeClick={handleStrikeClick}
+      />
+    </div>
+  )
 }
 
 export default Editor

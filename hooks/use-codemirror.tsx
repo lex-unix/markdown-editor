@@ -38,8 +38,12 @@ const languageHighlight = HighlightStyle.define([
 
 const editorTheme = EditorView.theme({
   '&.cm-editor': {
-    border: '1px solid hsl(360, 0%, 78%)',
-    borderRadius: '4px'
+    borderTop: '1px solid hsl(360, 0%, 78%)',
+    borderLeft: '1px solid hsl(360, 0%, 78%)',
+    borderRight: '1px solid hsl(360, 0%, 78%)',
+    borderRadius: '4px',
+    borderBottomLeftRadius: '0',
+    borderBottomRightRadius: '0'
   },
   '.cm-scroller': {
     fontFamily:

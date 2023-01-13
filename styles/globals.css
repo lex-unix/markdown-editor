@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 main {
   margin: 40px;
   display: flex;
@@ -11,4 +15,12 @@ main {
 
 .preview {
   align-self: flex-start;
+}
+
+.preview h1 {
+  @apply text-3xl font-bold my-4;
+}
+
+.preview ul {
+  @apply list-disc;
 }
