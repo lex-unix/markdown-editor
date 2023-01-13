@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { EditorSelection, EditorState } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
-import { defaultKeymap } from '@codemirror/commands'
+import { defaultKeymap, historyKeymap, history } from '@codemirror/commands'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
 
@@ -69,7 +69,8 @@ const useCodeMirror = <T extends Element>(
     const startState = EditorState.create({
       doc: initialDoc,
       extensions: [
-        keymap.of([...defaultKeymap]),
+        keymap.of([...defaultKeymap, ...historyKeymap]),
+        history(),
         markdown({
           base: markdownLanguage,
           addKeymap: true
