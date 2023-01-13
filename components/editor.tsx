@@ -62,7 +62,7 @@ const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
           : insertBefore('**', editorView)
       }
 
-      if (e.key === 'u' && e.metaKey) {
+      if (e.key === 'u' && e.metaKey && e.shiftKey) {
         isSeletion
           ? insertAround('~~', '~~', editorView, selection)
           : insertBefore('~~~~', editorView)
