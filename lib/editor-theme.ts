@@ -12,7 +12,8 @@ export const editorTheme = EditorView.theme({
     borderBottomRightRadius: '0'
   },
   '.cm-content': {
-    minHeight: '120px'
+    minHeight: '120px',
+    padding: '8px 0'
   },
   '.cm-scroller': {
     fontFamily:
@@ -20,6 +21,9 @@ export const editorTheme = EditorView.theme({
   },
   '&.cm-focused': {
     outline: 'none'
+  },
+  '.cm-line': {
+    padding: '0 8px'
   }
 })
 

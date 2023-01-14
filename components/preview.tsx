@@ -24,7 +24,7 @@ const Preview: React.FC<Props> = ({ doc }) => {
       })
   }, [doc])
 
-  return <div className="preview">{md}</div>
+  return <div className="preview p-2">{md}</div>
 }
 
 export default Preview

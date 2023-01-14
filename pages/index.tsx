@@ -1,6 +1,5 @@
-import Editor from '../components/editor'
 import { useCallback, useState } from 'react'
-import Preview from '../components/preview'
+import ViewTabs from '../components/view-tabs'
 
 export default function Home() {
   const [doc, setDoc] = useState('')
@@ -11,9 +10,8 @@ export default function Home() {
 
   return (
     <>
-      <main>
-        <Editor initialDoc={doc} onChange={handleDocChange} />
-        <Preview doc={doc} />
+      <main className="my-4 mx-20">
+        <ViewTabs doc={doc} onChange={handleDocChange} />
       </main>
     </>
   )

@@ -2,15 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-main {
-  margin: 40px;
-  display: flex;
-  gap: 48px;
-}
-
 .editor {
   flex: 0 0 50%;
-  min-height: 100vh;
 }
 
 .preview {
@@ -22,7 +15,7 @@ main {
 }
 
 .preview p {
-  @apply my-4;
+  @apply mb-4;
 }
 
 .preview ul {
