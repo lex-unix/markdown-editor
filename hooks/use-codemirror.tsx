@@ -1,58 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { EditorSelection, EditorState } from '@codemirror/state'
-import { EditorView, keymap } from '@codemirror/view'
+import { EditorView, keymap, placeholder } from '@codemirror/view'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { historyKeymap, history } from '@codemirror/commands'
-import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
-import { tags } from '@lezer/highlight'
-
-const languageHighlight = HighlightStyle.define([
-  {
-    tag: tags.heading1,
-    fontSize: '1.6em',
-    fontWeight: 'bold'
-  },
-  {
-    tag: tags.heading2,
-    fontSize: '1.4em',
-    fontWeight: 'bold'
-  },
-  {
-    tag: tags.heading3,
-    fontSize: '1.2em',
-    fontWeight: 'bold'
-  },
-  {
-    tag: tags.emphasis,
-    fontStyle: 'italic'
-  },
-  {
-    tag: tags.strong,
-    fontWeight: 'bold'
-  },
-  {
-    tag: tags.strikethrough,
-    textDecoration: 'line-through'
-  }
-])
-
-const editorTheme = EditorView.theme({
-  '&.cm-editor': {
-    borderTop: '1px solid hsl(360, 0%, 78%)',
-    borderLeft: '1px solid hsl(360, 0%, 78%)',
-    borderRight: '1px solid hsl(360, 0%, 78%)',
-    borderRadius: '4px',
-    borderBottomLeftRadius: '0',
-    borderBottomRightRadius: '0'
-  },
-  '.cm-scroller': {
-    fontFamily:
-      "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;"
-  },
-  '&.cm-focused': {
-    outline: 'none'
-  }
-})
+import { syntaxHighlighting } from '@codemirror/language'
+import { editorTheme, languageHighlight } from '../lib/editor-theme'
 
 interface Props {
   initialDoc: string
@@ -79,6 +31,7 @@ const useCodeMirror = <T extends Element>(
           base: markdownLanguage,
           addKeymap: true
         }),
+        placeholder("What's on your mind?"),
         editorTheme,
         syntaxHighlighting(languageHighlight),
         EditorView.updateListener.of(update => {
